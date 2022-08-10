@@ -14,7 +14,7 @@ class IQAIR {
         );
 
         let pollution: Object = {};
-        if(response.status === "success") {
+        if(response && response.status === "success") {
             pollution = response.data.current.pollution;
 
             return res.status(200).json({

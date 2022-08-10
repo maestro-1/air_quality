@@ -1,7 +1,8 @@
 import express from 'express';
 import router from './router';
-import dataSource from './config/data-source';
-import { parisAirQualityCron } from './services/cron';
+
+import { DataSource } from 'typeorm';
+import { ScheduledTask } from 'node-cron';
 
 
 
@@ -13,28 +14,38 @@ interface IApp {
 class App implements IApp {
 	// public err: string;
 	public app: express.Application;
+	public db: DataSource;
+	public cronTasks: Array<ScheduledTask>;
 
-	constructor() {
+	constructor(db: DataSource, cronTasks: Array<ScheduledTask>) {
 		this.app = express();
+		this.db = db;
+		this.cronTasks = cronTasks;
+
 		this.config();
 		this.routes();
-		parisAirQualityCron.start();
+		this.start_cron_tasks(cronTasks);
 	}
 
 	public config(): void {
 		//configurations
 		this.app.use(express.json());
-
 		this.app.use(express.urlencoded({ extended: true }));
 
 		// initialize database
-		dataSource.initialize()
+		this.db.initialize()
 			.then(() => {
 				console.log("Data Source has been initialized!")
 			})
 			.catch((err) => {
 				console.error("Error during Data Source initialization", err)
 			})
+	}
+
+	private start_cron_tasks(cronTasks: Array<ScheduledTask>): void {
+		for(let key in cronTasks){
+			this.cronTasks[key].start();
+		}
 	}
 
 	public routes(): void {
@@ -44,6 +55,14 @@ class App implements IApp {
 		});
 
 	}
+
+	public close(): void {
+		this.db.destroy();
+
+		for(let key in this.cronTasks){
+			this.cronTasks[key].stop();
+		}
+	}
 }
 
-export default new App().app;
+export default App;

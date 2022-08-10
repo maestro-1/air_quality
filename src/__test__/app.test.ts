@@ -1,13 +1,19 @@
 import supertest from 'supertest';
 import App from '../app';
 import http_request from '../services/http_request/iqair_request';
+import { testDataStore } from '../config/test-datasource';
 
-const request = supertest(App);
+const testApp = new App(testDataStore, []);
+const request = supertest(testApp.app);
 
 afterEach(() => {
     // restore the spy created with spyOn
     jest.restoreAllMocks();
 });
+
+afterAll(() => {
+    testApp.close();
+})
 
 
 it("Test get air-quality endpoint", async () => {
@@ -16,9 +22,4 @@ it("Test get air-quality endpoint", async () => {
 
     expect(spy).toHaveBeenCalled();
     expect(res.status).toBe(200);
-});
-  
-it("Get most polluted time of a city not recorded", async () => {
-    const res = await request.get("/api/most_poluted_time?city=Lagos");
-    expect(res.status).toBe(404);
 });
