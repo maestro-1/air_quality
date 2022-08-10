@@ -1,6 +1,6 @@
 import { setupTestDB, teardownTestDB } from '../../../../jest-singleton';
 import { CountryService, LocationService, PollutionService } from '../../pollution';
-import { testDataStore } from '../../../config/data-source';
+import { testDataStore } from '../../../config/test-datasource';
 import { Location } from '../../../entity/location';
 import { Country } from '../../../entity/country';
 import { Pollution } from '../../../entity/pollution';

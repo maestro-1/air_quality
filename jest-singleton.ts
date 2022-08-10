@@ -1,4 +1,4 @@
-import { testDataStore } from './src/config/data-source'
+import { testDataStore } from './src/config/test-datasource';
 
 
 export const setupTestDB = async () => {

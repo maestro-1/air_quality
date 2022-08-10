@@ -1,6 +1,6 @@
 import express from 'express';
 import router from './router';
-import { dataSource } from './config/data-source';
+import dataSource from './config/data-source';
 import { parisAirQualityCron } from './services/cron';
 
 

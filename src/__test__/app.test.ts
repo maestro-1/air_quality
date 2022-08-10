@@ -17,8 +17,3 @@ it("Test get air-quality endpoint", async () => {
     expect(spy).toHaveBeenCalled();
     expect(res.status).toBe(200);
 });
-  
-it("Get most polluted time of a city", async () => {
-    const res = await request.get("/api/most_poluted_time?city=paris");
-    expect(res.status).toBe(200);
-});

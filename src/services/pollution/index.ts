@@ -1,4 +1,4 @@
-import { dataSource } from '../../config/data-source';
+import dataSource from '../../config/data-source';
 import { Location } from '../../entity/location';
 import { Country } from '../../entity/country';
 import { Pollution } from '../../entity/pollution';
@@ -115,7 +115,7 @@ export class PollutionService {
         pollution.aqicn = pollutionDetails.aqicn;
         pollution.mainus = pollutionDetails.mainus;
         pollution.maincn = pollutionDetails.maincn;
-        pollution.ts = pollutionDetails.ts
+        pollution.recordedPollutionTime = pollutionDetails.ts
         return pollution;
     }
 

@@ -37,6 +37,7 @@ class IQAIR {
             const pollution = await pollutionSVC.getPollutionBy(city);
             res.status(200).json({ pollution });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Something went wrong"});
         }
     }

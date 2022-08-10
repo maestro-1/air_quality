@@ -4,6 +4,8 @@ import {
     Column,
     BaseEntity,
     ManyToOne,
+    CreateDateColumn,
+    UpdateDateColumn
 } from "typeorm";
 import { Location } from "./location";
   
@@ -26,7 +28,13 @@ export class Pollution extends BaseEntity {
     maincn: string;
 
     @Column()
-    ts: string;
+    recordedPollutionTime: string;
+
+    @CreateDateColumn()
+    createdAt: Date
+
+    @UpdateDateColumn()
+    updatedAt: Date
 
     @ManyToOne(() => Location, (location) => location.pollutions)
     location: Location

@@ -4,7 +4,9 @@ import {
     Column,
     BaseEntity,
     OneToMany,
-    ManyToOne
+    ManyToOne,
+    CreateDateColumn,
+    UpdateDateColumn
 } from "typeorm";
 // import { Geometry } from 'geojson';
 
@@ -22,6 +24,12 @@ export class Location extends BaseEntity {
 
     @Column()
     state: string;
+
+    @CreateDateColumn()
+    createdAt: Date
+
+    @UpdateDateColumn()
+    updatedAt: Date
 
     @ManyToOne(() => Country, (country) => country.location)
     country: Country;

@@ -3,8 +3,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-
-export const dataSource = new DataSource({
+const dataSource = new DataSource({
     migrationsTableName: 'migrations',
     type: "postgres",
     host: process.env.DATABASE_HOST,
@@ -25,10 +24,4 @@ export const dataSource = new DataSource({
 })
 
 
-export const testDataStore = new DataSource({
-   name: `default`,
-   type: `better-sqlite3`,
-   database: `:memory:`,
-   entities: [`src/entity/**/*.ts`],
-   synchronize: true
-})
+export default dataSource
