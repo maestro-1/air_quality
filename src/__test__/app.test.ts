@@ -10,7 +10,7 @@ afterEach(() => {
 });
 
 
-it("Gets the test endpoint", async () => {
+it("Test get air-quality endpoint", async () => {
     const spy = jest.spyOn(http_request, `getByCoodinates`);
     const res = await request.get("/api/air_quality");
 
@@ -18,7 +18,7 @@ it("Gets the test endpoint", async () => {
     expect(res.status).toBe(200);
 });
   
-it("Gets the test endpoint", async () => {
+it("Get most polluted time of a city", async () => {
     const res = await request.get("/api/most_poluted_time?city=paris");
     expect(res.status).toBe(200);
 });
