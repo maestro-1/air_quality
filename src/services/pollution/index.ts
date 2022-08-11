@@ -1,4 +1,3 @@
-import dataSource from '../../config/data-source';
 import { Location } from '../../entity/location';
 import { Country } from '../../entity/country';
 import { Pollution } from '../../entity/pollution';
@@ -9,7 +8,7 @@ import {
     PollutionEntry, 
     IPollution 
 } from '../../interfaces';
-
+import dataSource from '../../config/data-source';
 
 export class CountryService {
     private countryRepository: Repository<Country>;
@@ -128,7 +127,6 @@ export class PollutionService {
         .getOne()
     }
 }
-
 
 export const countrySVC = new CountryService(
     dataSource.getRepository(Country)

@@ -1,17 +1,12 @@
 import * as http from 'http';
-import App from './app';
-import dataSource from './config/data-source';
-import { parisAirQualityCron } from './services/cron';
-
-// set up app instance for server
-const app = new App(dataSource, [parisAirQualityCron]).app
+import { application } from './app';
 
 
 //Change port to 8080 when deploying to aws
 const port = normalizePort(process.env.PORT || "3000");
-app.set('port', port);
+application.app.set('port', port);
 
-const server = http.createServer(app);
+const server = http.createServer(application.app);
 server.listen(port);
 
 server.on('error', onError);

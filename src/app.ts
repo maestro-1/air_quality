@@ -1,5 +1,7 @@
 import express from 'express';
 import router from './router';
+import dataSource from './config/data-source';
+import { parisAirQualityCron } from './services/cron';
 
 import { DataSource } from 'typeorm';
 import { ScheduledTask } from 'node-cron';
@@ -11,7 +13,7 @@ interface IApp {
 	routes(): void;
 }
 
-class App implements IApp {
+export class App implements IApp {
 	// public err: string;
 	public app: express.Application;
 	public db: DataSource;
@@ -38,11 +40,15 @@ class App implements IApp {
 				console.log("Data Source has been initialized!")
 			})
 			.catch((err) => {
-				console.error("Error during Data Source initialization", err)
+				console.log("Error during Data Source initialization", err)
 			})
 	}
 
 	private start_cron_tasks(cronTasks: Array<ScheduledTask>): void {
+		if(cronTasks.length < 1){
+			return;
+		}
+
 		for(let key in cronTasks){
 			this.cronTasks[key].start();
 		}
@@ -57,7 +63,13 @@ class App implements IApp {
 	}
 
 	public close(): void {
-		this.db.destroy();
+		this.db.destroy()
+		.then(() => console.log(`Destroyed database connection`))
+		.catch(err => console.log(`${err} occured`));
+
+		if(this.cronTasks.length < 1){
+			return;
+		}
 
 		for(let key in this.cronTasks){
 			this.cronTasks[key].stop();
@@ -65,4 +77,4 @@ class App implements IApp {
 	}
 }
 
-export default App;
+export const application = new App(dataSource, [parisAirQualityCron])
